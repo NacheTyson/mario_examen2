@@ -13,7 +13,7 @@ Este proyecto es una aplicación web interactiva creada con **Flask** (Python) p
 
 Permite a los usuarios seleccionar un aeropuerto de origen y uno de destino entre los 50 principales de Europa. La aplicación calcula la distancia geodésica (usando la fórmula Haversine) y, lo más importante, ajusta la duración estimada del vuelo basándose en las **condiciones meteorológicas actuales** (viento y temperatura) obtenidas de APIs en tiempo real.
 
-El objetivo es proporcionar una estimación de vuelo más precisa que una simple búsqueda estática, demostrando el impacto del clima en la aviación.
+El objetivo es proporcionar una estimación de vuelo más precisa que una simple búsqueda estática, demostrando el impacto del clima y del **tipo de aeronave** en la aviación.
 
 ---
 
@@ -48,6 +48,7 @@ Para ejecutar este proyecto localmente, sigue estos pasos:
 ### Cómo usar la interfaz:
 * Selecciona un **aeropuerto de origen** usando el menú desplegable o haciendo clic en un icono ✈️ en el mapa.
 * Selecciona un **aeropuerto de destino** de la misma manera.
+* Elige el **tipo de avión** (Medio o Largo Radio) para ajustar la velocidad de crucero.
 * Haz clic en el botón **"🧮 Calcular Duración del Vuelo"**.
 * Los resultados (distancia, clima y duración) aparecerán en la tarjeta de "Resultados".
 
@@ -69,7 +70,7 @@ El backend de Flask (`app.py`) expone varios puntos finales (endpoints) API:
 * `@app.route('/')`: Sirve la página principal que contiene toda la lógica del frontend (el `HTML_TEMPLATE`).
 * `@app.route('/api/airports')`: Devuelve un objeto JSON con la lista de los 50 aeropuertos europeos, obtenidos por la función `download_airport_data()` usando `pandas`.
 * `@app.route('/api/weather/<iata_code>')`: (Endpoint inferido por el JS) Obtiene y devuelve el clima actual (temperatura, viento) para el aeropuerto con el código IATA especificado.
-* `@app.route('/api/calculate')`: (Endpoint inferido por el JS) Recibe el origen y el destino. Llama internamente a la API del clima, calcula la distancia Haversine y aplica una fórmula (que incluye el viento y la temperatura) para estimar la duración del vuelo.
+* `@app.route('/api/calculate')`: Recibe el origen, el destino y el **tipo de aeronave**. Llama internamente a la API del clima, calcula la distancia Haversine y aplica una fórmula (que incluye el viento, la temperatura y la velocidad de crucero de la aeronave) para estimar la duración del vuelo.
 
 ---
 
